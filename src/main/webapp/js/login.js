@@ -32,13 +32,13 @@ function valandsub() {
 }
 
 function resulthandler(){
+    var adv = document.getElementById("warning");
     if(req.readyState === 4){
-        if(req.status === 401)
-            alert("Accesso negato: le credenziali non sono corrette");
-        else if(req.status === 200){
-            var adv = document.getElementById("warning");
-            var text = document.createtextnode("Loggato con successo, attendi qualche secondo per essere rediretto alla home");
-            adv.appendChild(text);
+        if(req.status === 400 || req.status === 500){
+            adv.innerHTML(req.responseText);
+        } else if(req.status === 200){
+            var text2 = "Loggato con successo, attendi qualche secondo per essere rediretto alla home";
+            adv.innerHTML(text2);
             window.setTimeout(redirect,3000);
         }
 
