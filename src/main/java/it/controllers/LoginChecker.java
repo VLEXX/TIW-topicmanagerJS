@@ -58,13 +58,12 @@ public class LoginChecker extends HttpServlet {
                         if (pwhash.equals(u.getHash())) {
                             request.getSession(true).setAttribute("user", u);
                             String homepage = "/areapersonale/home";
-                            //todo mandare indietro 200 senza redirect
                             response.setStatus(HttpServletResponse.SC_OK);
                             System.out.println("LoginChecker: la password è corretta, utente loggato come "+((UserBean)request.getSession().getAttribute("user")).getUsername()+" -> send back 200");
 
                             //caso 1b/2b/3b: la password è errata
                         } else {
-                            System.out.println("LoginChecker: la password è errata -> dispatching edited LoginFile.html");
+                            System.out.println("LoginChecker: la password è errata -> response 400");
                             response.getWriter().println("La password e' errata");
                             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                         }
@@ -73,7 +72,7 @@ public class LoginChecker extends HttpServlet {
                     e.printStackTrace();
                     response.getWriter().println("Il servizio e' temporaneamente non disponibile, riprovare piu' tardi");
                     response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                    System.out.println("LoginChecker: errore del DB -> dispatching edited LoginFIle.html");
+                    System.out.println("LoginChecker: errore del DB -> response 500");
                 }
 
 

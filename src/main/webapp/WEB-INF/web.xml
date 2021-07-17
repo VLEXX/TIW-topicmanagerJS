@@ -15,4 +15,12 @@
         <error-code>404</error-code>
         <location>/WEB-INF/ResourceNotFound.html</location>
     </error-page>
+    <filter>
+        <filter-name>CorsFilter</filter-name>
+        <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>CorsFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 </web-app>
