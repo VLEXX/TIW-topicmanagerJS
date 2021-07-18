@@ -10,17 +10,16 @@ function valandsub() {
         document.getElementById("warning").innerHTML = "<span style='color: red'>Username non valido: deve contenere almeno un carattere, massimo 256 caratteri e non sono ammessi simboli.</span>";
         console.log("valandsub: username non valido");
         return false;
-    }
-    if(!pass || pass.trim().length === 0){
+    } else if(!pass || pass.trim().length === 0){
         document.getElementById("warning").innerHTML = "<span style='color: red'>Password non valida: deve contenere almeno un carattere</span>";
         console.log("valandsub: password non valida");
         return false;
     }
 
     var req = new XMLHttpRequest();
-    var url = "localhost:8080/gruppo33js/logincheck";
+    var url = "http://localhost:8080/gruppo33js/logincheck";
     req.onreadystatechange = function(){resulthandler(req);};
-    req.open("post", url, true);
+    req.open("POST", url, true);
     var data = new FormData();
     data.append("username",name);
     data.append("password",pass);
@@ -43,6 +42,6 @@ function resulthandler(req){
 }
 
 function redirect(){
-    window.location.href = "localhost:8080/gruppo33js/areapersonale/home";
+    window.location.href = "http://localhost:8080/gruppo33js/areapersonale/home";
 }
 

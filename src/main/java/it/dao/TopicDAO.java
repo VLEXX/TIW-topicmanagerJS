@@ -40,8 +40,9 @@ public class TopicDAO {
             } catch (Exception e1) {
                 throw new SQLException(e1);
             }
-            return topic;
+
         }
+        return topic;
 
     }
 

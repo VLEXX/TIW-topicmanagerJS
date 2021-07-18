@@ -6,7 +6,7 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 
 
-@WebServlet(name = "HomeHandler", value = "/areaprotetta/home")
+@WebServlet(name = "HomeHandler", value = "/areapersonale/home")
 @MultipartConfig
 public class HomeHandler extends HttpServlet {
     @Override
