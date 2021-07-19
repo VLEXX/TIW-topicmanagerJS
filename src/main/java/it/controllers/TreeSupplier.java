@@ -12,7 +12,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-@WebServlet(name = "TreeSupplier", value = "/areapersonale/TreeSupplier")
+@WebServlet(name = "TreeSupplier", value = "/areapersonale/topics")
 public class TreeSupplier extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -23,7 +23,7 @@ public class TreeSupplier extends HttpServlet {
             c.close();
             Gson gson = new Gson();
             String ser_roottopiclist = gson.toJson(roottopiclist);
-            System.out.println("TreeSupplier: l'albero serializato risulta essere "+ser_roottopiclist);
+            System.out.println("TreeSupplier: l'albero serializato risulta essere: "+ser_roottopiclist);
             response.setContentType("application/json");
             response.getWriter().write(ser_roottopiclist);
             response.setStatus(HttpServletResponse.SC_OK);

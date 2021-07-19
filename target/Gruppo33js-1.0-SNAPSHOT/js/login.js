@@ -18,7 +18,7 @@ function valandsub() {
 
     var req = new XMLHttpRequest();
     var url = "http://localhost:8080/gruppo33js/logincheck";
-    req.onreadystatechange = function(){resulthandler(req);};
+    req.onreadystatechange = function(){resulthandler(req, name);};
     req.open("POST", url, true);
     var data = new FormData();
     data.append("username",name);
@@ -28,13 +28,14 @@ function valandsub() {
 
 }
 
-function resulthandler(req){
+function resulthandler(req, name){
     var adv = document.getElementById("warning");
     if(req.readyState === 4){
         if(req.status === 400 || req.status === 500){
             adv.innerHTML = "<span style='color:red'>"+req.responseText+"</span>";
         } else if(req.status === 200){
             adv.innerHTML = "<span style='color: green'> Loggato con successo, attendi qualche secondo per essere rediretto alla home</span>";
+            localStorage.setItem("loggeduser",name);
             window.setTimeout(redirect,3000);
         }
 

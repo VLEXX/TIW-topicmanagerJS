@@ -11,12 +11,9 @@ import java.io.IOException;
 public class HomeHandler extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setStatus(200);
-        response.getWriter().println("Ok loggato con successo");
+        String homepage = "/WEB-INF/Home.html";
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(homepage);
+        dispatcher.forward(request, response);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
 }

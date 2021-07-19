@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
-    <script src="./js/homemanager.js" charset="utf-8" defer></script>
+    <script src="../js/homemanager.js" charset="utf-8" defer></script>
 </head>
 <body>
 <h3>Bentornato <span id="loggedusername"></span></h3>
@@ -11,12 +11,12 @@
 <span id="warning"></span>
 <section id="tree"></section>
 <h4>Aggiungi un nuovo topic</h4>
-<form action="/gruppo33/areapersonale/addtopic" method="post">
+<form id="addform" action="#">
     <div>
         <label>Nome nuova categoria</label>
     </div>
     <div>
-        <input type="text" id="topicfield" name="topicname" placeholder="nome nuovo topic" th:value="${newcat} ?: ''" required>
+        <input type="text" id="topicfield" name="topicname" placeholder="nome nuovo topic" required>
     </div>
     <div>
         <label>Nome categoria padre </label>
@@ -26,9 +26,9 @@
         <input type="text" id="fathertopicfield" name="fathertopicname" placeholder="nome categoria padre">
     </div>
     <span>ogni categoria puo' avere un massimo di 9 sottocategorie<br></span>
-    <span th:utext="${errore}"></span>
-    <input type="submit" value="Inserisci">
+    <span id="addresult"></span>
+    <input type="button" value="Inserisci" onclick="addtopic()">
 </form>
-<p><a href="/gruppo33/logout">Clicca qui</a> per effettuare il logout</p>
+<p><a onclick="logout()" href="#" >Clicca qui</a> per effettuare il logout</p>
 </body>
 </html>

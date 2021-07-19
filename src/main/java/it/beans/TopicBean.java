@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class TopicBean {
     int id;
     String topic;
-    ArrayList<TopicBean> children;
+    ArrayList<TopicBean> childrenlist;
     Integer parid;
     String treeindex;
 
@@ -16,18 +16,18 @@ public class TopicBean {
         this.id = id;
         this.parid = parid;
         this.topic = td.findTopicById(id);
-        this.children = new ArrayList<>();
+        this.childrenlist = new ArrayList<>();
         this.treeindex = treeindex;
 
         ArrayList<Integer> childrenids = td.findChildrenIdById(id);
         for(Integer c : childrenids){
-            this.children.add(new TopicBean(td,c,id,treeindex+ (childrenids.indexOf(c) + 1)));
+            this.childrenlist.add(new TopicBean(td,c,id,treeindex+ (childrenids.indexOf(c) + 1)));
         }
 
     }
 
-    public ArrayList<TopicBean> getChildren() {
-        return children;
+    public ArrayList<TopicBean> getChildrenlist() {
+        return childrenlist;
     }
 
     public int getId() {
