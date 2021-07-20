@@ -8,25 +8,25 @@
 <body>
 <h3>Bentornato <span id="loggedusername"></span></h3>
 <h4>Ecco l'elenco delle categorie disponibili</h4>
-<span id="warning"></span>
-<section id="tree"></section>
+<span id="warning_"></span>
+<section id="tree" ><span id='root_dropper' class='dropzone' style="display: none" ondragover='dragoman(event)' ondragenter='dragen(event)' ondragleave='dragex(event)' ondrop='drope(event)'>Sposta nella radice</span></section>
 <h4>Aggiungi un nuovo topic</h4>
-<form id="addform" action="#">
+<form id="add_form" action="#">
     <div>
         <label>Nome nuova categoria</label>
     </div>
     <div>
-        <input type="text" id="topicfield" name="topicname" placeholder="nome nuovo topic" required>
+        <input type="text" id="topicfield_" name="topicname" placeholder="nome nuovo topic" required>
     </div>
     <div>
         <label>Nome categoria padre </label>
         <span><br>(lasciare vuoto se si desidera aggiungere la nuova categoria alla radice) </span>
     </div>
     <div>
-        <input type="text" id="fathertopicfield" name="fathertopicname" placeholder="nome categoria padre">
+        <input type="text" id="fathertopicfield_" name="fathertopicname" placeholder="nome categoria padre">
     </div>
     <span>ogni categoria puo' avere un massimo di 9 sottocategorie<br></span>
-    <small id="addresult"></small><br>
+    <small id="add_result"></small><br>
     <input type="button" value="Inserisci" onclick="addtopic()">
 </form>
 <p><a onclick="logout()" href="#" >Clicca qui</a> per effettuare il logout</p>

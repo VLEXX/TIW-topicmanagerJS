@@ -36,7 +36,7 @@ function resulthandler(req, name){
         } else if(req.status === 200){
             adv.innerHTML = "<span style='color: green'> Loggato con successo, attendi qualche secondo per essere rediretto alla home</span>";
             localStorage.setItem("loggeduser",name);
-            window.setTimeout(redirect,3000);
+            window.setTimeout(redirect,1500);
         }
 
     }
