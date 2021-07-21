@@ -8,8 +8,9 @@
 <body>
 <h3>Bentornato <span id="loggedusername"></span></h3>
 <h4>Ecco l'elenco delle categorie disponibili</h4>
-<span id="warning_"></span>
 <section id="tree" ><span id='root_dropper' class='dropzone' style="display: none" ondragover='dragoman(event)' ondragenter='dragen(event)' ondragleave='dragex(event)' ondrop='drope(event)'>Sposta nella radice</span></section>
+<button onclick="sendmoves()" href="#">Invia spostamenti effettuati</button>
+<span id="warning_"></span>
 <h4>Aggiungi un nuovo topic</h4>
 <form id="add_form" action="#">
     <div>
@@ -27,7 +28,7 @@
     </div>
     <span>ogni categoria puo' avere un massimo di 9 sottocategorie<br></span>
     <small id="add_result"></small><br>
-    <input type="button" value="Inserisci" onclick="addtopic()">
+    <input id="movesubmitter" style="display: none" value="Inserisci" onclick="addtopic()">
 </form>
 <p><a onclick="logout()" href="#" >Clicca qui</a> per effettuare il logout</p>
 </body>

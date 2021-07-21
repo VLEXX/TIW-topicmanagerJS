@@ -66,7 +66,6 @@ public class TopicDAO {
             while(res1.next()){
                 children.add(res1.getInt("Id"));
             }
-            System.out.println("La ricerca ha prodotto "+children.size()+" risultati");
             res1.close();
             p.close();
         } catch (SQLException throwables) {
@@ -175,7 +174,6 @@ public class TopicDAO {
 
         String query1 = "UPDATE dbimagecat.categories SET parentId = ?, childrenOrder = ? WHERE Id = ?";
         String query3 = "UPDATE dbimagecat.categories SET childrenOrder = ? WHERE Id = ?";
-        c.setAutoCommit(false);
         try {
             PreparedStatement p1 = c.prepareStatement(query1);
             PreparedStatement p3 = c.prepareStatement(query3);
@@ -196,16 +194,13 @@ public class TopicDAO {
             p1.setInt(2,tb.size()+ (tb.contains(id) ? 0 : 1));
             p1.setInt(3, id);
             p1.executeUpdate();
-            c.commit();
             r2.close();
             p1.close();
             p2.close();
             p3.close();
-            c.setAutoCommit(true);
 
         } catch (SQLException e){
-            c.rollback();
-            c.setAutoCommit(true);
+            throw new SQLException();
         }
         return 0;
 
