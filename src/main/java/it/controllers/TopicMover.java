@@ -32,7 +32,7 @@ public class TopicMover extends HttpServlet {
         Gson gson = new Gson();
         Type listType = new TypeToken<ArrayList<MoveBean>>() {}.getType();
         ArrayList<MoveBean> moves = new ArrayList<>();
-        Boolean allmovesok = false;
+        boolean allmovesok = false;
         try{
         moves.addAll(gson.fromJson(movese,listType));
         }catch (JsonSyntaxException e){
@@ -48,7 +48,7 @@ public class TopicMover extends HttpServlet {
                 String source = moves.get(i).getSrc();
                 String dest = moves.get(i).getDest();
                 System.out.println("TopicMover: spostamento di "+source+" in "+dest);
-                if(source==null||source.isBlank() || source.length()<6 || source.substring(0,source.length()-5).isBlank() ) {
+                if(source==null||source.isBlank() || source.length()<6 || source.length()>261 || source.substring(0,source.length()-5).isBlank() ) {
                     System.out.println("TopicMover: la categoria da spostare non è stata definita correttamente");
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                     response.getWriter().write("La categoria da spostare (source) dello spostamento " + i + " non e' specificata");
@@ -59,7 +59,7 @@ public class TopicMover extends HttpServlet {
                     src = td.findIdByTopic(source);
                     System.out.println("TopicMover: ricerca nel DB di: "+source);
                     if (dest != null){
-                        if(dest.length()<6){
+                        if(dest.length()<6 || dest.length()>261){
                             response.getWriter().write("la destinazione scelta non e' valida");
                             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                             break;

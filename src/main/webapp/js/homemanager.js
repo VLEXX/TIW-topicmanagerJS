@@ -58,46 +58,48 @@ function treestruct(treeobj,treeloc,sectionval){
     }
 }
 
-function addtopic(){
+function addtopic() {
     document.getElementById("add_result").innerHTML = "";
     var myform = document.getElementById("add_form");
     var newtop = myform.elements["topicfield_"].value;
     var topfat = myform.elements["fathertopicfield_"].value;
-    console.log("Inseriti nel form: padre: "+topfat+", nuova cat.: "+newtop+";");
-    if(topfat && document.getElementById(topfat)===null){
+    console.log("Inseriti nel form: padre: " + topfat + ", nuova cat.: " + newtop + ";");
+    if (topfat && document.getElementById(topfat) === null) {
         document.getElementById("add_result").innerHTML = "<span style='color: red'>Categoria padre inesistente.</span>";
         return;
     }
-    if(!newtop || newtop.trim() === ""){
+    if (!newtop || newtop.trim() === "") {
         document.getElementById("add_result").innerHTML = "<span style='color: red'>Campo nuova categoria e' obbligatorio</span>";
         return;
-    }else if(document.getElementById(newtop)){
+    } else if (document.getElementById(newtop)) {
         document.getElementById("add_result").innerHTML = "<span style='color: red'>La categoria esiste gia'.</span>";
         return;
     }
-    if(!topfat || topfat.trim() === "")
+    if (!topfat || topfat.trim() === "")
         topfat = "root_node";
-    if(document.getElementById(topfat).getElementsByClassName("childrenof"+topfat+"_").length > 8){
+    if (document.getElementById(topfat).getElementsByClassName("childrenof" + topfat + "_").length > 8) {
         document.getElementById("add_result").innerHTML = "<span style='color: red'>La categoria scelta ha gia' il limite massimo di categorie figlie consentito.</span>";
         return;
     }
-    if(newtop.length > 255){
+    if (newtop.length > 255) {
         document.getElementById("add_result").innerHTML = "<span style='color: red'>La categoria inserita non puo' superare i 255 caratteri.</span>";
         return;
     }
     var moves = JSON.parse(localStorage.getItem("savedmoves")).length;
-    if(moves > 0){
-        var dec = confirm("Gli spostamenti non confermati saranno notificati al server prima che la nuova categoria sia aggiunta, e in caso essi non siano validi la nuova categoria verrà inserita come sottocategoria nella categoria padre specificata ove possibile. Continuare?");
-        if(dec === true) {
-            sendmoves();
+    if (moves > 0) {
+        var dec = postconfirm("Gli spostamenti non confermati saranno notificati al server prima che la nuova categoria sia aggiunta, e in caso essi non siano validi la nuova categoria verrà inserita come sottocategoria nella categoria padre specificata ove possibile. Continuare?");
+        if (dec === true) {
+            sendmoves(true,newtop,topfat);
         }
-        else
-            return;
-    }
+    }else
+        addsend(newtop,topfat);
+}
+
+function addsend(newtop,topfat){
     console.log("Fathername is equal to: "+topfat);
     var req = new XMLHttpRequest();
     var url = "http://localhost:8080/gruppo33js/areapersonale/addtopic";
-    req.onreadystatechange = function(){addhandler(req, newtop,topfat);};
+    req.onreadystatechange = function(){addhandler(req);};
     req.open("POST", url, true);
     var data = new FormData();
     data.append("newtopic",newtop);
@@ -107,7 +109,7 @@ function addtopic(){
 
 }
 
-function addhandler(req,newtop,topfat){
+function addhandler(req){
     var adv = document.getElementById("add_result");
     if(req.readyState === 4){
         if(req.status === 400 || req.status === 500){
@@ -168,7 +170,7 @@ function drope(event){
         console.log("La categoria da spostare non esiste");
         return;
     }
-    var exito = confirm("Confermi lo spostamento ?")
+    var exito = postconfirm("Confermi lo spostamento ?");
     if(exito === false)
         return;
     realtarget.appendChild(document.getElementById(datat));
@@ -209,7 +211,7 @@ function indexrebuild(startfrom,initnumber){
     }
 }
 
-function sendmoves(){
+function sendmoves(fadd,newtop,topfat){
     document.getElementById("movesubmitter").style.display = "none";
     var req = new XMLHttpRequest();
     var moves = localStorage.getItem("savedmoves");
@@ -218,7 +220,7 @@ function sendmoves(){
         return;
     }
     var url = "http://localhost:8080/gruppo33js/areapersonale/movetopic";
-    req.onreadystatechange = function(){movehandler(req);};
+    req.onreadystatechange = function(){movehandler(req,fadd,newtop,topfat);};
     req.open("POST", url, true);
     var data = new FormData();
     data.append("moves", moves);
@@ -227,7 +229,7 @@ function sendmoves(){
 
 }
 
-function movehandler(req){
+function movehandler(req,fadd,newtop,topfat){
     var adv = document.getElementById("warning_");
     if(req.readyState === 4){
         if(req.status === 400 || req.status === 500){
@@ -238,17 +240,29 @@ function movehandler(req){
                 loadtree();
             }
             setTimeout(function(){adv.innerHTML = ""; adv.style.color="";}, 4000);
+            if(fadd === true){
+                var dec2 = postconfirm("Non è stato possibile eseguire gli spostamenti, si desidera inserire comunque la nuova categoria)");
+                if(dec2 === true)
+                    addsend(newtop,topfat);
+            }
+
         } else if(req.status === 200){
             adv.style.color = "green";
             adv.innerHTML = req.responseText;
             setTimeout(function(){adv.innerHTML =""; adv.style.color="";},4000);
             loadtree();
+            if(fadd === true)
+                addsend(newtop,topfat);
 
         }
         localStorage.setItem("savedmoves","[]");
 
 
     }
+}
+
+function postconfirm(message){
+    return confirm(message);
 }
 
 function logout(){

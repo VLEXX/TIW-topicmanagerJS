@@ -28,7 +28,7 @@ public class LoginChecker extends HttpServlet {
         } else {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
-            System.out.println("LoginChecker: la password è: " + password + "\n");
+            System.out.println("LoginChecker: la password è: " + password);
 
             //caso 1a: dati inseriti in formato non valido
             if (username == null || username.isBlank() || password == null || password.isBlank() || !username.matches("^[a-zA-Z0-9]*$")) {
@@ -48,7 +48,7 @@ public class LoginChecker extends HttpServlet {
                     if (u == null) {
                         response.getWriter().println("L'utente inserito non esiste");
                         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                        System.out.println("LoginChecker: utente non trovato -> dispatching edited LoginFile.html");
+                        System.out.println("LoginChecker: utente non trovato -> response 400");
 
                         //caso 1b/2b: l'utente esiste
                     } else {
